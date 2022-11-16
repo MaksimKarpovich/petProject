@@ -8,4 +8,6 @@
 
 void drawPyramid(int size);
 
-void drawChristmasTree(int size);
+void drawTree(void);
+
+void decorateTree(void);
