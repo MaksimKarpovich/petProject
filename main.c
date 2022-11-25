@@ -26,9 +26,11 @@ int main(int argc, char** argv)
         return 0;
     drawBlueBackground();
     drawSnowGround();
+    RIGHT(1);
     drawTree();
-
+    RIGHT(1);
     decorateTree();
+    LEFT(1);
     printf("\033[A");
     printf("\r\n");
     while(1);

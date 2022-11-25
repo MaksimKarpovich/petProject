@@ -27,6 +27,7 @@
 #define YELLOW_TOY "\033[07;38;05;107;48;05;226m"
 #define BLUE_TOY "\033[07;38;05;107;48;05;21m"
 #define BLUE_BACK_WHITE_LETTER "\033[01;38;05;15;48;05;68m"
+#define BLUE_BACK_GREEN_LETTER "\033[01;38;05;107;48;05;68m"
 #define DEFAULT "\033[0m"
 
 void drawPyramid(int size)
@@ -129,12 +130,38 @@ void drawTree(void)
     UP(1);
     upNum++;
 
-    printf(GREEN);
     int greenWidth = 19;
+    LEFT(2);
+    printf(BLUE_BACK_GREEN_LETTER);
+    printf("\u25e4");
+    printf(GREEN);
+    printf("#");
     for(int greenHight = 0; greenHight < 19; greenHight++)
     {
-        for(int i = 0; i < greenWidth; i++)
+        if(greenHight != 0) {
+            LEFT(1);
+            printf(BLUE_BACK_GREEN_LETTER);
+            printf("\u25e4");
+        }
+
+        for(int i = 0; i < greenWidth; i++) {
+            printf(GREEN);
             printf("#");
+        }
+
+        if(greenHight != 0) {
+            printf(BLUE_BACK_GREEN_LETTER);
+            printf("\u25e5");
+            LEFT(1);
+        } else
+        {
+            printf(GREEN);
+            printf("#");
+            printf(BLUE_BACK_GREEN_LETTER);
+            printf("\u25e5");
+            LEFT(2);
+        }
+
 
         if(greenHight % 2 == 0)
             LEFT(greenWidth);
@@ -267,8 +294,8 @@ void decorateTree(void)
     LEFT(4);
     printTreeToy();
 
-    UP(2);
-    upNum += 2;
+    UP(3);
+    upNum += 3;
 
     printf(YELLOW);
     printf("0");
