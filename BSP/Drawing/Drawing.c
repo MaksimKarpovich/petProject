@@ -7,6 +7,8 @@
   */
 
 #include <stdio.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 #define UP(num) for(int i = 0; i < num; i++) printf("\033[A")
 #define DOWN(num) for(int i = 0; i < num; i++) printf("\033[B")
@@ -18,10 +20,13 @@
 #define PGDN() printf("\033[G")
 
 #define BROWN "\033[07;38;05;94;48;05;94m"
+#define WHITE "\033[01;38;05;15;48;05;15m"
 #define GREEN "\033[07;38;05;107;48;05;107m"
 #define YELLOW "\033[07;38;05;226;48;05;226m"
+#define BLUE "\033[01;38;05;68;48;05;68m"
 #define YELLOW_TOY "\033[07;38;05;107;48;05;226m"
 #define BLUE_TOY "\033[07;38;05;107;48;05;21m"
+#define BLUE_BACK_WHITE_LETTER "\033[01;38;05;15;48;05;68m"
 #define DEFAULT "\033[0m"
 
 void drawPyramid(int size)
@@ -44,6 +49,58 @@ void drawPyramid(int size)
         spaceNum -= 1;
         printf("\r\n");
     }
+}
+
+static void drawHill(void)
+{
+    struct winsize window;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+
+    UP((window.ws_row >> 2) - 1);
+    int startCol = window.ws_col >> 1, stopCol = (window.ws_col >> 1) + (window.ws_col >> 2);
+    for(int i = 0; i < (window.ws_row >> 2); i++)
+    {
+
+        for(int j = 0; j < window.ws_col - 1; j++) {
+            if(j == startCol + 1) {
+                printf(BLUE_BACK_WHITE_LETTER);
+                printf("\u25e2");
+                printf(WHITE);
+            }
+            if((j > startCol)&&((j < stopCol)||((i > (window.ws_row >> 3)))))
+                printf("#");
+            else
+                RIGHT(1);
+        }
+        startCol -= window.ws_col / 39;
+        stopCol += window.ws_col / 29;
+        printf("\r\n");
+    }
+
+    PGDN();
+    printf(DEFAULT);
+}
+
+void drawSnowGround(void)
+{
+    printf(WHITE);
+
+    drawHill();
+}
+
+void drawBlueBackground(void)
+{
+    struct winsize window;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+
+    printf(BLUE);
+    for(int j = 0; j < window.ws_row; j++) {
+        for(int i = 0; i < window.ws_col; i++)
+            printf("#");
+
+        printf("\r\n");
+    }
+    PGDN();
 }
 
 void drawTree(void)

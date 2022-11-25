@@ -21,18 +21,16 @@ int main(int argc, char** argv)
 {
     struct winsize window;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-//    drawPyramid(window.ws_row - 1);
 
-    for(int i = 0; i < window.ws_row; i++)
-    {
-        printf ("\r\n");
-    }
+    if(window.ws_col == 0)
+        return 0;
+    drawBlueBackground();
+    drawSnowGround();
     drawTree();
 
     decorateTree();
-//    printf("*");
+    printf("\033[A");
     printf("\r\n");
-//    printf ("window.ws_row = %d\r\n", window.ws_row);
-//    printf ("window.ws_col = %d\r\n", window.ws_col);
+    while(1);
 //    system("clear");
 }

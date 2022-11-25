@@ -8,6 +8,10 @@
 
 void drawPyramid(int size);
 
+void drawBlueBackground(void);
+
 void drawTree(void);
 
 void decorateTree(void);
+
+void drawSnowGround(void);
