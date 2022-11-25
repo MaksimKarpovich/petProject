@@ -57,7 +57,7 @@ static void drawHill(void)
     struct winsize window;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 
-    UP((window.ws_row >> 2) - 1);
+    UP((window.ws_row >> 2) + 1);
     int startCol = window.ws_col >> 1, stopCol = (window.ws_col >> 1) + (window.ws_col >> 2);
     for(int i = 0; i < (window.ws_row >> 2); i++)
     {
@@ -68,15 +68,30 @@ static void drawHill(void)
                 printf("\u25e2");
                 printf(WHITE);
             }
-            if((j > startCol)&&((j < stopCol)||((i > (window.ws_row >> 3)))))
+            if(((j > startCol))&&((j < stopCol)||((i > (window.ws_row >> 3)))))
                 printf("#");
             else
                 RIGHT(1);
+            if((j == stopCol)&&(i <= (window.ws_row >> 3)))
+            {
+                LEFT(1);
+                printf(BLUE_BACK_WHITE_LETTER);
+                printf("\u25e3");
+                printf(WHITE);
+            }
         }
         startCol -= window.ws_col / 39;
         stopCol += window.ws_col / 29;
         printf("\r\n");
     }
+
+    for(int i = 0; i < window.ws_col; i++)
+        printf("#");
+    printf("\r\n");
+
+    for(int i = 0; i < window.ws_col; i++)
+        printf("#");
+    printf("\r\n");
 
     PGDN();
     printf(DEFAULT);
