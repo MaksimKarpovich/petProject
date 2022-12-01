@@ -6,21 +6,16 @@
   ******************************************************************************
   */
 
-#define UP(num) for(int i = 0; i < num; i++) printf("\033[A")
-#define DOWN(num) for(int i = 0; i < num; i++) printf("\033[B")
-#define RIGHT(num) for(int i = 0; i < num; i++) printf("\033[C")
-#define LEFT(num) for(int i = 0; i < num; i++) printf("\033[D")
-#define HOME() printf("\033[H")
-#define END() printf("\033[F")
-#define PGUP() printf("\033[I")
-#define PGDN() printf("\033[G")
+#include <sys/types.h>
+
+u_int16_t * getHighestForeground(void);
 
 void drawPyramid(int size);
 
 void drawBlueBackground(void);
 
-void drawTree(void);
+void drawTree(u_int16_t horizont, u_int16_t vertical);
 
-void decorateTree(void);
+void decorateTree(u_int16_t horizont, u_int16_t vertical);
 
 void drawSnowGround(void);

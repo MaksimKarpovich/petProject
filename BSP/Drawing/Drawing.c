@@ -9,15 +9,8 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-
-#define UP(num) for(int i = 0; i < num; i++) printf("\033[A")
-#define DOWN(num) for(int i = 0; i < num; i++) printf("\033[B")
-#define RIGHT(num) for(int i = 0; i < num; i++) printf("\033[C")
-#define LEFT(num) for(int i = 0; i < num; i++) printf("\033[D")
-#define HOME() printf("\033[H")
-#define END() printf("\033[F")
-#define PGUP() printf("\033[I")
-#define PGDN() printf("\033[G")
+#include "main.h"
+#include <sys/types.h>
 
 #define BROWN "\033[07;38;05;94;48;05;94m"
 #define WHITE "\033[01;38;05;15;48;05;15m"
@@ -29,6 +22,19 @@
 #define BLUE_BACK_WHITE_LETTER "\033[01;38;05;15;48;05;68m"
 #define BLUE_BACK_GREEN_LETTER "\033[01;38;05;107;48;05;68m"
 #define DEFAULT "\033[0m"
+
+static u_int16_t highestForeground[MAX_WIDTH] = {0, };
+
+u_int16_t * getHighestForeground(void)
+{
+    return highestForeground;
+}
+
+static void setHighestForeground(u_int16_t horizont, u_int16_t vertical)
+{
+    if(highestForeground[horizont] < vertical)
+        highestForeground[horizont] = vertical;
+}
 
 void drawPyramid(int size)
 {
@@ -119,13 +125,18 @@ void drawBlueBackground(void)
     PGDN();
 }
 
-void drawTree(void)
+void drawTree(u_int16_t horizont, u_int16_t vertical)
 {
+    u_int16_t highestPoint[23] = {4,5,7,9,11,13,15,17,19,21,24,25,24,21,19,17,15,13,11,9,7,5,4};
+    for(int i = 0; i < 23; i++)
+        setHighestForeground(horizont + i, vertical + highestPoint[i]);
     int upNum = 0;
 
-    RIGHT(8);
+    RIGHT(9 + horizont);
+    UP(vertical);
+    upNum += vertical;
 
-    printf(BROWN);
+//    printf(BROWN);
     for(int i = 0; i < 5; i++)
         printf("#");
 
@@ -147,32 +158,32 @@ void drawTree(void)
 
     int greenWidth = 19;
     LEFT(2);
-    printf(BLUE_BACK_GREEN_LETTER);
+//    printf(BLUE_BACK_GREEN_LETTER);
     printf("\u25e4");
-    printf(GREEN);
+//    printf(GREEN);
     printf("#");
     for(int greenHight = 0; greenHight < 19; greenHight++)
     {
         if(greenHight != 0) {
             LEFT(1);
-            printf(BLUE_BACK_GREEN_LETTER);
+//            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e4");
         }
 
         for(int i = 0; i < greenWidth; i++) {
-            printf(GREEN);
+//            printf(GREEN);
             printf("#");
         }
 
         if(greenHight != 0) {
-            printf(BLUE_BACK_GREEN_LETTER);
+//            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e5");
             LEFT(1);
         } else
         {
-            printf(GREEN);
+//            printf(GREEN);
             printf("#");
-            printf(BLUE_BACK_GREEN_LETTER);
+//            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e5");
             LEFT(2);
         }
@@ -207,14 +218,15 @@ void printTreeToy(void)
     printf("0");
     num++;
 }
-void decorateTree(void)
+
+void decorateTree(u_int16_t horizont, u_int16_t vertical)
 {
     int upNum = 0;
 
-    UP(3);
-    upNum += 3;
+    UP(3 + vertical);
+    upNum += 3 + vertical;
 
-    RIGHT(15);
+    RIGHT(horizont + 16);
 
     printTreeToy();
 
@@ -312,7 +324,8 @@ void decorateTree(void)
     UP(3);
     upNum += 3;
 
-    printf(YELLOW);
+//    printf(YELLOW);
+    printf(DEFAULT);
     printf("0");
 
     UP(1);
