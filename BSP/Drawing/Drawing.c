@@ -136,7 +136,7 @@ void drawTree(u_int16_t horizont, u_int16_t vertical)
     UP(vertical);
     upNum += vertical;
 
-//    printf(BROWN);
+    printf(BROWN);
     for(int i = 0; i < 5; i++)
         printf("#");
 
@@ -158,32 +158,32 @@ void drawTree(u_int16_t horizont, u_int16_t vertical)
 
     int greenWidth = 19;
     LEFT(2);
-//    printf(BLUE_BACK_GREEN_LETTER);
+    printf(BLUE_BACK_GREEN_LETTER);
     printf("\u25e4");
-//    printf(GREEN);
+    printf(GREEN);
     printf("#");
     for(int greenHight = 0; greenHight < 19; greenHight++)
     {
         if(greenHight != 0) {
             LEFT(1);
-//            printf(BLUE_BACK_GREEN_LETTER);
+            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e4");
         }
 
         for(int i = 0; i < greenWidth; i++) {
-//            printf(GREEN);
+            printf(GREEN);
             printf("#");
         }
 
         if(greenHight != 0) {
-//            printf(BLUE_BACK_GREEN_LETTER);
+            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e5");
             LEFT(1);
         } else
         {
-//            printf(GREEN);
+            printf(GREEN);
             printf("#");
-//            printf(BLUE_BACK_GREEN_LETTER);
+            printf(BLUE_BACK_GREEN_LETTER);
             printf("\u25e5");
             LEFT(2);
         }
@@ -324,8 +324,8 @@ void decorateTree(u_int16_t horizont, u_int16_t vertical)
     UP(3);
     upNum += 3;
 
-//    printf(YELLOW);
-    printf(DEFAULT);
+    printf(YELLOW);
+    //printf(DEFAULT);
     printf("0");
 
     UP(1);
